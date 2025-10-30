@@ -39,9 +39,7 @@ Monanku Bhattacharjee
 
 ## Design Space Exploration and Design Strategies
 
-The block diagram of async. FIFO that is implemented in this repo is given below. Thin lines represent single bit signal where as thisck lines represent multi-bit signal.
 
-<img src=".\Assets\Async_FIFO.png" alt="Alt Text" width="900">
 
 ### Read and Write Operations
 
