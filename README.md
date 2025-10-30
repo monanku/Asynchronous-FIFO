@@ -30,7 +30,6 @@ Monanku Bhattacharjee
 
 - FIFO stands for "First-In, First-Out." It is a type of data structure or buffer in which the first data element added (the "first in") is the first one to be removed (the "first out"). This structure is commonly used in scenarios where order of operations is important.
 - Async FIFO, or Asynchronous FIFO, is a FIFO buffer where the read and write operations are controlled by independent clock domains. This means that the writing process and the reading process are driven by different clocks, which are not synchronized. Async FIFOs are used to safely transfer data between these asynchronous clock domains.
-- <img src=".\Assets\FIFO_in_system.png" alt="Alt Text" width="500">
 - Async FIFOs are used in various applications where data needs to be transferred between two parts of a system that operate on different clock frequencies. Some common use cases include:
 
     - Interfacing between different clock domains: For example, transferring data between a high-speed processing unit and a slower peripheral.
@@ -99,34 +98,25 @@ For implementing this FIFO, I have divided the design into 5 modules:-
 
 #### FIFO.v
 
-[./Verilog_code/FIFO.v](/Verilog_Code/FIFO.v) is the code of this module. This module is a FIFO implementation with configurable data and address sizes. It consists of a memory module, read and write pointer handling modules, and read and write pointer synchronization modules. The read and write pointers are synchronized to the respective clock domains, and the read and write pointers are checked for empty and full conditions, respectively. The FIFO memory module stores the data and handles the read and write operations.The RTL schematics of this module is given below. 
+[./Verilog_code/FIFO.v](/Verilog_Code/FIFO.v) is the code of this module. This module is a FIFO implementation with configurable data and address sizes. It consists of a memory module, read and write pointer handling modules, and read and write pointer synchronization modules. The read and write pointers are synchronized to the respective clock domains, and the read and write pointers are checked for empty and full conditions, respectively. The FIFO memory module stores the data and handles the read and write operations.
 
-<img src=".\Assets\FIFO_RTL.png" alt="Alt Text" width="900">
 
 
 #### FIFO_memory.v
 
-[./Verilog_code/FIFO_memory.v](/Verilog_Code/FIFO_memory.v) is the code of this module. The module has a memory array (``mem``) with a depth of ``2^ADDR_SIZE``. The read and write addresses are used to access the memory array. The write clock enable (``wclk_en``) and write full (``wfull``) signals are used to control the writing process. The write data is stored in the memory array on the rising edge of the write clock (``wclk``). The RTL schematics of this module is given below. 
+[./Verilog_code/FIFO_memory.v](/Verilog_Code/FIFO_memory.v) is the code of this module. The module has a memory array (``mem``) with a depth of ``2^ADDR_SIZE``. The read and write addresses are used to access the memory array. The write clock enable (``wclk_en``) and write full (``wfull``) signals are used to control the writing process. The write data is stored in the memory array on the rising edge of the write clock (``wclk``). 
 
-<img src=".\Assets\FIFO_memory_RTL.png" alt="Alt Text" width="600">
 
 #### two_ff_sync.v
 
-[./Verilog_code/two_ff_sync.v](/Verilog_Code/two_ff_sync.v) is the code of this module. The module has two flip-flops, ``q1`` and ``q2``, which store the input data (``din``) of size ``SIZE``. On each clock cycle, the data is shifted from ``q1`` to ``q2``, and new data is loaded into ``q1``. The reset signal (``rst_n``) is active low, meaning the FIFO is reset when ``rst_n`` is low. The RTL schematics of this module is given below. 
-
-<img src=".\Assets\2_ff_sync_RTL.png" alt="Alt Text" width="500">
-
+[./Verilog_code/two_ff_sync.v](/Verilog_Code/two_ff_sync.v) is the code of this module. The module has two flip-flops, ``q1`` and ``q2``, which store the input data (``din``) of size ``SIZE``. On each clock cycle, the data is shifted from ``q1`` to ``q2``, and new data is loaded into ``q1``. The reset signal (``rst_n``) is active low, meaning the FIFO is reset when ``rst_n`` is low.
 #### rptr_empty.v
 
-[./Verilog_code/rprt_empty.v](/Verilog_Code/rprt_empty.v) is the code of this module. The module implements a read pointer for a FIFO with an empty flag. The read pointer is implemented in grey code to avoid glitches when transitioning clock domains. The read pointer is incremented based on the read increment signal and the empty flag. The empty flag is set when the read pointer is equal to the write pointer, indicating that the FIFO is empty. The read pointer and empty flag are updated on each clock cycle, and the read address is calculated from the read pointer. The RTL schematics of this module is given below. 
-
-<img src=".\Assets\rptr_empty_RTL.png" alt="Alt Text" width="800">
+[./Verilog_code/rprt_empty.v](/Verilog_Code/rprt_empty.v) is the code of this module. The module implements a read pointer for a FIFO with an empty flag. The read pointer is implemented in grey code to avoid glitches when transitioning clock domains. The read pointer is incremented based on the read increment signal and the empty flag. The empty flag is set when the read pointer is equal to the write pointer, indicating that the FIFO is empty. The read pointer and empty flag are updated on each clock cycle, and the read address is calculated from the read pointer. 
 
 #### wptr_full.v
 
-[./Verilog_code/wprt_full.v](/Verilog_Code/wprt_full.v) is the code of this module. The module implements a write pointer for a FIFO with a full flag. The write pointer is implemented in gray code to avoid glitches when transitioning between clock domains. The write pointer is incremented based on the write increment signal and the full flag. The full flag is set when the write pointer is equal to the read pointer, indicating that the FIFO is full. The write pointer and full flag are updated on each clock cycle, and the write address is calculated from the write pointer. The RTL schematics of this module is given below. 
-
-<img src=".\Assets\wptr_full_RTL.png" alt="Alt Text" width="800">
+[./Verilog_code/wprt_full.v](/Verilog_Code/wprt_full.v) is the code of this module. The module implements a write pointer for a FIFO with a full flag. The write pointer is implemented in gray code to avoid glitches when transitioning between clock domains. The write pointer is incremented based on the write increment signal and the full flag. The full flag is set when the write pointer is equal to the read pointer, indicating that the FIFO is full. The write pointer and full flag are updated on each clock cycle, and the write address is calculated from the write pointer. 
 
 ## Testbench Case Implementation
 
