@@ -128,11 +128,6 @@ For implementing this FIFO, I have divided the design into 5 modules:-
 
 The testbench uses clock signals for writing and reading, and includes reset signals to initialize the FIFO. The testbench finishes after running the test cases.
 
-### Waveforms
-
-<img src=".\Assets\tb_1.png" alt="Alt Text" width="800">
-<img src=".\Assets\tb_2.png" alt="Alt Text" width="800">
-<img src=".\Assets\tb_3.png" alt="Alt Text" width="800">
 
 ## Results
 
